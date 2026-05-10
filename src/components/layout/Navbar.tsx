@@ -1,9 +1,11 @@
-import { Compass } from "lucide-react"
+import { Compass, } from "lucide-react"
 import { Link } from "react-router-dom"
 import { Button } from "../ui/Button"
+import { useAuth } from "../../context/AuthContext";
+import { UserButton } from "@neondatabase/neon-js/auth/react";
 
 function Navbar() {
-    const user = false;
+    const {user} = useAuth();
     return (
         <header className="fixed top-0 right-0 left-0 z-50 border-b border-border bg-background/80 backdrop-blur-md">
             <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
@@ -17,8 +19,9 @@ function Navbar() {
                         <>
                         <Link to="/profile">
                             <Button variant="ghost" size="sm">
-                                My Plan
+                                My Roadmap
                             </Button>
+                            <UserButton className="bg-accent"/>
                         </Link>
                         </>
                     ) : (
