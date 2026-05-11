@@ -11,3 +11,25 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
+
+model prep_plans {
+  id String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  user_id String @db.Uuid
+  roadmap_json Json
+  roadmap_text String
+  version Int @default(1)
+  created_at DateTime @default(now()) @db.Timestamptz(6)
+  @@index([user_id], map: "idx_prep_plans_user_id")
+}
+
+model user_profiles {
+  user_id String @id @db.Uuid
+  target_role String @db.VarChar(20)
+  coding_level String @db.VarChar(20)
+  study_days Int
+  hours_per_day Int
+  focus_area String @db.VarChar(20)
+  weak_topics String?
+  learning_style String @db.VarChar(20)
+  updated_at DateTime @default(now()) @db.Timestamptz(6)
+}
