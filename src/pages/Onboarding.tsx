@@ -5,7 +5,9 @@ import { Select } from "../components/ui/Select";
 import { useState } from "react";
 import { Textarea } from "../components/ui/Textarea";
 import { Button } from "../components/ui/Button";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Loader2 } from "lucide-react";
+import type { UserProfile } from "../types";
+import { useNavigate } from "react-router-dom";
 
 
 const goalOptions = [
@@ -54,7 +56,7 @@ const learningOptions = [
 ];
 
 export default function Onboarding() {
-    const {user} = useAuth();
+    const {user, saveProfile, generatePlan} = useAuth();
     const [formData, setFormData] = useState({
         targetRole: "sde_intern",
         codingLevel: "beginner",
@@ -64,6 +66,9 @@ export default function Onboarding() {
         weakTopics: "",
         learningStyle: "balanced",
     });
+    const [isGenerating, setIsGenerating] = useState(false)
+    const [, setError] = useState("")
+    const navigate = useNavigate()
 
     function updateForm(field: string, value: string) {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -72,6 +77,38 @@ export default function Onboarding() {
 
     async function handleQuestionnaire(e: React.SubmitEvent) {
         e.preventDefault()
+
+        const profile: Omit<UserProfile, "userId"> = {
+            targetRole: formData.targetRole as UserProfile["targetRole"],
+
+            codingLevel:
+                formData.codingLevel as UserProfile["codingLevel"],
+
+            studyDays: parseInt(formData.studyDays),
+
+            hoursPerDay: parseInt(formData.hoursPerDay),
+
+            focusArea:
+                formData.focusArea as UserProfile["focusArea"],
+
+            weakTopics: formData.weakTopics || undefined,
+
+            learningStyle:
+                formData.learningStyle as UserProfile["learningStyle"],
+
+            updatedAt: new Date().toISOString(),
+            };
+
+            try {
+                await saveProfile(profile);
+                setIsGenerating(true)
+                await generatePlan()
+                navigate("/profile")
+            } catch (error) {
+                setError(error instanceof Error ? error.message: "Failed to save profile");
+            } finally {
+                setIsGenerating(false)
+            }
     }
 
     if(!user) {
@@ -84,7 +121,7 @@ export default function Onboarding() {
                     {/* progress Indicator */}
 
                     {/* Step 1: Quetionnaire */}
-                    <Card variant="bordered">
+                    {!isGenerating ? <Card variant="bordered">
                         <h1 className="text-2xl font-bold mb-2">Let's Build Your Prep Roadmap</h1>
                         <p className="text-muted mb-6">
                             Answer a few questions to generate your personalized placement preparation plan
@@ -150,7 +187,13 @@ export default function Onboarding() {
                                 </Button>
                             </div>
                         </form>
-                    </Card>
+                    </Card>: (
+                        <Card className="text-center py-16" variant="bordered">
+                            <Loader2 className="w-12 h-12 text-accent mx-auto mb-6 animate-spin"/>
+                            <h1 className="text-2xl font-bold mb-2">Creating your roadmap</h1>
+                            <p className="text-muted">Our AI is building your personalized preparation roadmap</p>
+                        </Card>
+                    )}
 
                     {/* Step 2: Generating */}
                 </div>

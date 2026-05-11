@@ -1,4 +1,6 @@
 import { Router, type Request, type Response } from "express";
+import { prisma } from "../lib/prisma";
+
 
 export const profileRouter = Router();
 
@@ -35,22 +37,30 @@ profileRouter.post("/", async (req: Request, res: Response) => {
         });
         }
 
-        // Save profile logic here
-
-        return res.status(200).json({
-        success: true,
-        message: "Profile saved successfully",
-        data: {
-            userId,
-            targetRole,
-            codingLevel,
-            studyDays,
-            hoursPerDay,
-            focusArea,
-            weakTopics,
-            learningStyle,
-        },
+        await prisma.user_profiles.upsert({
+            where: {user_id: userId},
+            update: {
+                target_role: targetRole,
+                coding_level: codingLevel,
+                study_days: studyDays,
+                hours_per_day: hoursPerDay,
+                focus_area: focusArea,
+                weak_topics: weakTopics || null,
+                learning_style: learningStyle,
+                updated_at: new Date(),
+            },
+            create: {
+                user_id: userId,
+                target_role: targetRole,
+                coding_level: codingLevel,
+                study_days: studyDays,
+                hours_per_day: hoursPerDay,
+                focus_area: focusArea,
+                weak_topics: weakTopics || null,
+                learning_style: learningStyle,
+            },
         });
+        res.json({succeed: true})
     } catch (error) {
         console.error("Error saving profile:", error);
 
