@@ -10,7 +10,17 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3001
 
-app.use(cors());
+const allowedOrigins = process.env.CORS_ORIGINS
+    ? process.env.CORS_ORIGINS.split(",")
+    : ["http://localhost:5173"];
+
+app.use(
+    cors({
+        origin: allowedOrigins,
+        credentials: true,
+    }),
+);
+
 app.use(cookieParser());
 app.use(express.json());
 
@@ -20,4 +30,4 @@ app.use("/api/roadmap", roadmapRouter)
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`)
-} )
+})
