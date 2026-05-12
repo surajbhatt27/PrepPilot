@@ -64,3 +64,33 @@ roadmapRouter.post('/generate', async (req: Request, res: Response) => {
         res.status(500).json({error: "failed to generate plan"});
     }
 })
+
+roadmapRouter.get("/current", async (req: Request, res: Response) => {
+    try {
+        const userId = req.query.userId as string;
+        if(!userId) {
+            return res.status(400).json({error: "User ID is required"});
+        }
+
+        const roadmap = await prisma.prep_plans.findFirst({
+            where: {user_id: userId},
+            orderBy: {created_at: 'desc'},
+        })
+
+        if(!roadmap) {
+            return res.status(404).json({error: "no roadmap found"});
+        }
+
+        res.json({
+            id: roadmap.id,
+            userId: roadmap.user_id,
+            roadmapJson: roadmap.roadmap_json,
+            roadmapText: roadmap.roadmap_text,
+            version: roadmap.version,
+            createdAt: roadmap.created_at
+        })
+    } catch (error) {
+        console.log("Error fetching roadmap:", error);
+        res.status(500).json({error: "Failed to fetch data"});
+    }
+})
