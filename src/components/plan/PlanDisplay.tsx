@@ -89,8 +89,8 @@ function DayCard({ schedule }: { schedule: DaySchedule }) {
                     </thead>
 
                     <tbody>
-                        {schedule.tasks.map((exercise, key) => (
-                            <TaskRow task={exercise} index={key} />
+                        {schedule.tasks.map((exercise, index) => (
+                            <TaskRow key={`${schedule.day}-task-${index}`} task={exercise} index={index} />
                         ))}
                     </tbody>
                 </table>

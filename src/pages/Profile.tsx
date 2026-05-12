@@ -7,12 +7,15 @@ import {
     RefreshCcw,
     Target,
     TrendingUp,
+    Loader2,
 } from "lucide-react";
 import { Card } from "../components/ui/Card";
 import { PlanDisplay } from "../components/plan/PlanDisplay";
+import { useState } from "react";
 
 export default function Profile() {
     const { user, isLoading, roadmap, generatePlan } = useAuth();
+    const [isRegenerating, setIsRegenerating] = useState(false);
 
     if (!user && !isLoading) {
         return <Navigate to="/auth/sign-in" replace />;
@@ -46,9 +49,18 @@ export default function Profile() {
                     <Button
                         variant="secondary"
                         className="gap-2"
-                        onClick={async () => await generatePlan()}
+                        onClick={async () => {
+                            setIsRegenerating(true);
+                            await generatePlan();
+                            setIsRegenerating(false);
+                        }}
+                        disabled={isRegenerating}
                     >
-                        <RefreshCcw className="w-4 h-4" />
+                        {isRegenerating ? (
+                            <Loader2 className="w-4 h-4 animate-spin" />
+                        ) : (
+                            <RefreshCcw className="w-4 h-4" />
+                        )}
                         Regenerate Plan
                     </Button>
                 </div>
