@@ -44,7 +44,7 @@ export async function generatePrepPlan(
             {
             role: "system",
             content:
-                "You are an expert placement preparation mentor and career coach. You must respond with valid JSON only. Do not include markdown, explanations, or extra text.",
+                "You are an expert placement preparation mentor and career coach. Respond ONLY with valid minified JSON. Do not include markdown, explanations, backticks, or extra text.",
             },
             {
             role: "user",
@@ -52,7 +52,7 @@ export async function generatePrepPlan(
             },
         ],
 
-        temperature: 0.7,
+        temperature: 0.3,
 
         response_format: {
             type: "json_object",
@@ -70,7 +70,24 @@ export async function generatePrepPlan(
         throw new Error("No content in AI response");
         }
 
-        const planData = JSON.parse(content);
+        let planData;
+
+        try {
+            const cleanedContent = content
+                .replaceAll("\n", " ")
+                .replaceAll("\r", " ")
+                .replaceAll("\t", " ")
+                .trim();
+
+            planData = JSON.parse(cleanedContent);
+
+        } catch (error) {
+            console.error("[AI] Raw response:", content);
+
+            throw new Error("Invalid JSON returned from AI", {
+                cause: error,
+            });
+        }
 
         return formatPlanResponse(planData, normalizedProfile);
     } catch (error) {
@@ -174,8 +191,7 @@ function buildPrompt(profile: UserProfile): string {
         practice_heavy: "practice-heavy learning",
     };
 
-    return `
-        Create a personalized placement preparation roadmap for a student.
+    return `Create a personalized placement preparation roadmap for a student.
 
         Target Goal:
         ${goalMap[profile.targetRole] || profile.targetRole}
