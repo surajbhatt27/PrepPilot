@@ -38,7 +38,7 @@ export async function generatePrepPlan(
 
     try {
         const completion = await openai.chat.completions.create({
-        model: "nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free",
+        model: "openai/gpt-oss-120b:free",
 
         messages: [
             {
