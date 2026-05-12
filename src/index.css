@@ -2,15 +2,18 @@
 @import '@neondatabase/neon-js/ui/tailwind';
 
 @theme {
-  --font-sans: "Geist", system-ui, sans-serif;
+  --font-sans: "IBM Plex Sans", "Inter", sans-serif;
 
   --color-background: #0a0a0a;
-  --color-foreground: #fafafa;
-  --color-muted: #a1a1aa;
-  --color-border: #27272a;
-  --color-card: #18181b;
-  --color-accent: #84cc16;
-  --color-accent-hover: #a3a635;
+  --color-foreground: #ededed;
+
+  --color-card: #111111;
+  --color-border: #1f1f1f;
+
+  --color-muted: #727272;
+
+  --color-accent: #d4d4d4;
+  --color-accent-hover: #ffffff;
 }
 
 @layer base {
@@ -23,13 +26,30 @@
   body {
     margin: 0;
     min-height: 100vh;
+
+    background-image:
+      linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+
+    background-size: 32px 32px;
+
     -webkit-font-smoothing: antialiased;
-    -webkit-osx-smoothing: grayscale;
+    -moz-osx-font-smoothing: grayscale;
+
+    letter-spacing: -0.02em;
+  }
+
+  * {
+    border-color: var(--color-border);
+  }
+
+  ::selection {
+    background: #ffffff;
+    color: #000000;
   }
 
   [data-slot="skeleton"],
   .animate-pulse {
-    background-color: var(--color-border) !important;
+    background-color: #1a1a1a !important;
   }
 }
-

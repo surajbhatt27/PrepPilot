@@ -23,7 +23,7 @@ function Navbar() {
                                 </Button>
                             </Link>
 
-                            <UserButton />
+                            <UserButton size='icon'/>
                         </div>
                     ) : (
                         <div className="flex items-center gap-2">
