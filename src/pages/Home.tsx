@@ -102,7 +102,7 @@ export default function Home() {
                                 <span className="text-2xl font-bold text-accent">1</span>
                             </div>
                             <h3 className="font-semibold text-xl mb-2">Tell us what you're aiming for</h3>
-                            <p className="text-muted">Internship? Full-time? FAANG? Just getting started? Pick your target.</p>
+                            <p className="text-muted">Internship? Full-time? MAANG? Just getting started? Pick your target.</p>
                         </div>
                         <div className="text-center">
                             <div className="w-16 h-16 bg-accent/10 rounded-2xl flex items-center justify-center mx-auto mb-4">
@@ -278,7 +278,7 @@ export default function Home() {
                             <h4 className="font-medium mb-3">Connect</h4>
                             <div className="flex gap-4">
                                 <a
-                                    href="https://github.com/bhattsuraj27"
+                                    href="https://github.com/surajbhatt27"
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="text-muted hover:text-accent transition"
