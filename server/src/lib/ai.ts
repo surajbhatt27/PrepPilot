@@ -166,7 +166,7 @@ function buildPrompt(profile: UserProfile): string {
         backend_dev: "to become a backend developer",
         fullstack_dev: "to become a full stack developer",
         off_campus: "to prepare for off-campus opportunities",
-        faang: "to prepare for FAANG-level companies",
+        maang: "to prepare for MAANG-level companies",
         dsa_mastery: "to master Data Structures and Algorithms",
     };
 

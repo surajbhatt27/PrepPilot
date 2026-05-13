@@ -15,7 +15,7 @@ export interface UserProfile {
         | "backend_dev"
         | "fullstack_dev"
         | "off_campus"
-        | "faang"
+        | "maang"
         | "dsa_mastery";
 
     codingLevel:
