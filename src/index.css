@@ -53,3 +53,9 @@
     background-color: #1a1a1a !important;
   }
 }
+
+/* Override the AuthView internal card width */
+div[data-slot="card"] {
+    width: 100% !important;
+    max-width: 100% !important;
+}

@@ -34,7 +34,7 @@ export default function Home() {
         {
             icon: Target,
             title: "Made for placements",
-            description: "Whether it's an SDE internship, on-campus hiring, or FAANG — the plan adapts to what you're aiming for."
+            description: "Whether it's an SDE internship, on-campus hiring, or MAANG — the plan adapts to what you're aiming for."
         },
         {
             icon: Calendar,

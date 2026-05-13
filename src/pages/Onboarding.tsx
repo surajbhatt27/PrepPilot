@@ -18,7 +18,7 @@ const goalOptions = [
     { value: "backend_dev", label: "Backend Developer" },
     { value: "fullstack_dev", label: "Full Stack Developer" },
     { value: "off_campus", label: "Off-Campus Preparation" },
-    { value: "faang", label: "FAANG Preparation" },
+    { value: "maang", label: "MAANG Preparation" },
     { value: "dsa_mastery", label: "DSA Mastery" },
 ];
 
